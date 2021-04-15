@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+
+  "libraries": [
+
+    {
+      "library": "moment.js@2.29.1",
+      "destination": "wwwroot/lib/moment",
+      "files": [
+        "moment.min.js"
+      ]
+    },
+
+    {
+      "library": "tempusdominus-bootstrap-4@5.39.0",
+      "destination": "wwwroot/lib/boostrapdatetimepicker",
+      "files": [
+        "css/tempusdominus-bootstrap-4.min.css",
+        "js/tempusdominus-bootstrap-4.min.js"
+      ]
+    },
+
+    {
+      "library": "font-awesome@5.15.3",
+      "destination": "wwwroot/lib/fontawesome"
+    }
+
+  
+  ]
+}

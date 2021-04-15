@@ -1,0 +1,97 @@
+﻿
+
+
+@using Grocery.WebApp.Areas.Admin.ViewModels 
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml"; // comment out, because already have _ViewStart
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SellingPricePerUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpdatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedByUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedByUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SellingPricePerUnit)
+                </td>
+                <td>
+                    @if (item.Image != null)
+                    {
+                        @*@Html.DisplayFor(modelItem => item.Image)*@
+                        <img class="myProductImage" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedByUser.DisplayName) <!-- will be null if use lazy loading, will have value if use eager loading -->
+                </td>
+                <td>@if (item.UpdatedByUser != null)
+                {
+                    Html.DisplayFor(modelItem => item.UpdatedByUser.DisplayName);
+                }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section HeadScripts{ 
+    <style>
+        .myProductImage {
+            max-width: 40px;
+                max-height: 40px;
+                object-fit: cover; /*cover all available space of 40px;*/
+                border: 1px solid #808080;
+
+        }
+    </style>
+}

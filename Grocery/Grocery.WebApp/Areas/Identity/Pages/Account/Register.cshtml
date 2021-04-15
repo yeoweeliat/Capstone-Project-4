@@ -1,0 +1,155 @@
+﻿@page
+@using Grocery.WebApp.Data.Enums;    //@*using has to be b4 model*@
+@model RegisterModel     //@*bind model to this view*@
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <!-- add fields here for displayname gender dateofbirth -->
+            <hr />
+            <div class="form-group">
+                <label asp-for="Input.DisplayName"></label>
+                <input asp-for="Input.DisplayName" class="form-control" />
+                <span asp-validation-for="Input.DisplayName" class="text-danger"></span>
+            </div>
+
+            <!--
+            <div class="form-group">
+                <label asp-for="Input.DateOfBirth"></label>
+                <input asp-for="Input.DateOfBirth" class="form-control" />
+                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+            </div>
+                dtDateOfBirthPicker -->
+            
+
+            <div class="form-group">
+                <label asp-for="Input.DateOfBirth"></label>
+                <div class="input-group date" id="dtDateOfBirth" data-target-input="nearest"> <!--data-target-input="#dtDateOfBirth"-->
+                    <input asp-for="Input.DateOfBirth" class="form-control datetimepicker-input" type="text" data-target="#dtDateOfBirth" />
+                    <span class="input-group-append" data-target="#dtDateOfBirth" data-toggle="datetimepicker"> 
+                        <span class="input-group-text">
+                            <i class="far fa-calendar-alt"></i> <!-- add font-awesome icon, replace words pick -->
+                        </span>
+                    </span>
+                </div>
+
+                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+            </div>
+
+
+            <!--
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                <input asp-for="Input.Gender" class="form-control" />
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+                -->
+            <!-- using bootstrap to display radio buttons-->
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary">
+                        <input type="radio" asp-for="Input.Gender" class="form-check-input" id="Input.Gender.Male" name="Input.Gender" value="@MyAppGenderTypes.Male" />
+                        Male
+                    </label>
+
+                    <label class="btn btn-secondary">
+                        <input type="radio" asp-for="Input.Gender" class="form-check-input" id="Input.Gender.Female" name="Input.Gender" value="@MyAppGenderTypes.Female" />
+                        Female
+                    </label>
+
+                    <label class="btn btn-secondary">
+                        <input type="radio" asp-for="Input.Gender" class="form-check-input" id="Input.Gender.ThirdGender" name="Input.Gender" value="@MyAppGenderTypes.ThirdGender" />
+                        Third Gender
+                    </label>
+                </div>
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>Use another service to register.</h4>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                            for details on setting up this ASP.NET application to support logging in via external services.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
+
+@section HeadScripts {
+   
+    <link href="~/lib/boostrapdatetimepicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="~/lib/moment/moment.min.js"></script>
+    <script src="~/lib/boostrapdatetimepicker/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- once document ready, load object
+        bind datetimepicker to element-->
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('#dtDateOfBirth').datetimepicker({
+                format: 'DD-MMM-YYYY',
+                allowInputToggle: true
+            });
+
+        });
+    </script>
+
+}

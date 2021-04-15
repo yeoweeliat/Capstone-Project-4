@@ -1,0 +1,8 @@
+﻿
+/* Customization to the Booststrap css template*/
+
+
+/* modify element tag called <footer>*/
+footer {
+    background-color: red
+}
